@@ -1,0 +1,16 @@
+# Site settings
+title: TALLK
+email: tonyley3@gmail.com
+description: ""
+
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "" # the base hostname & protocol for your site
+#twitter_username: jekyllrb
+github_username:  tonyley
+
+# Build settings
+markdown: kramdown
+
+encoding: utf-8
+
+excerpt_separator: <!--excerpt-->  #摘要分割符设置

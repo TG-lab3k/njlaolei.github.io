@@ -1,46 +1,30 @@
-<!DOCTYPE html>
-<html>
+---
+layout: default
+---
 
-  <head>
-    <meta charset='utf-8'>
-    <!--
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Tonyley.GitHub.io : ">
-    -->
+<div class="home">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css"/>
-    <link rel="shortcut icon" type="image/x-icon" href="images/tallk.png" media="screen"/>
-    <title>TALLK</title>
-  </head>
+  <h1 class="page-heading">Posts</h1>
 
-  <body>
+  <ul class="post-list">
+    {% for post in site.posts %}
+      <!--
+      <li>
+        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <!--<a id="forkme_banner" href="https://github.com/tonyley">View on GitHub</a>-->
+        <h2>
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </h2>
+      </li>
+      -->
 
-          <h1 id="project_title">TALLK</h1>
-          <h2 id="project_tagline">
-            开发的实践、思考、总结</br>
-            目前做一些Android APP相关的开发工作
-          </h2>
-        </header>
-    </div>
+      <li>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+        <p>{{ post.excerpt }}</p>
+    </li>
+    {% endfor %}
+  </ul>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        建设中...
-      </section>
-    </div>
+  <!--<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>-->
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>@2015 lei guoting</p>
-      </footer>
-    </div>
-
-  </body>
-</html>
+</div>
