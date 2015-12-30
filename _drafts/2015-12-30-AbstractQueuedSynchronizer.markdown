@@ -4,10 +4,25 @@ title: "AbstractQueuedSynchronizer"
 categories: Java Concurrent
 ---
 AbstractQueuedSynchronizer(AQS)
+
+状态：使用volatile修饰的int型值保存，AQS通过API保证其操作的原子性。
+AQS队列：使用Node作为节点的双向链表，保存获取状态失败的线程。
+阻塞算法：AQS采用CLH(Craig, Landin, and Hagersten)自旋算法使获取状态失败的线程处于阻塞状态。
+ConditionObject：为子类提供一个java.util.concurrent.locks.Condition实现类
+
 AQS 采用CLH自旋锁方式让线程阻塞
 
-Node:
-AQS的等待节点
+Node: AQS阻塞队列节点对象
+waitStatus 状态   CANCELLED     取消
+                  SIGNAL        阻塞
+                  CONDITION     Condition队列中
+                  PROPAGATE     
+                  0             已释放
+prev       前节点
+next       下一个节点
+thread     线程对象    节点构造时初始化，节点释放时置为null
+nextWaiter 
+
 
 排他模式（exclusive mode）
 子类实现函数：
@@ -29,8 +44,6 @@ acquire：
 2. 添加一个EXCLUSIVE模式的Node到AQS队列尾。
 3. 
 
-共享模式（shared mode）
-
 
 AQS阻塞：
 1. AQS采用CLH自旋锁的方式使当前线程处于阻塞状态
@@ -50,6 +63,8 @@ b. 如果上面a执行失败，则判断该节点是否应该阻塞，如果应�
 
 5. 取消算法
 
+
+共享模式（shared mode）
 
 ReentrantLock分析
 lock:
