@@ -4,15 +4,15 @@ title: "AbstractQueuedSynchronizer"
 categories: Java Concurrent
 ---
 AbstractQueuedSynchronizer(AQS)
+1. AQS主要概念
+1) 状态: 使用volatile修饰的int型值保存状态，AQS通过系列API保证其操作的原子性。
+2) AQS队列: 使用Node作为节点的双向链表，保存获取状态失败的线程。
+3) Node: AQS队列节点对象
+4) 阻塞算法: AQS采用CLH(Craig, Landin, and Hagersten)自旋算法使获取状态失败的线程处于阻塞状态。
+5) ConditionObject: 为子类提供一个java.util.concurrent.locks.Condition实现类
+6) 模式: AQS分两套API，一套是排他模式（exclusive mode），另外一套为共享模式（shared mode）
 
-状态：使用volatile修饰的int型值保存，AQS通过API保证其操作的原子性。
-AQS队列：使用Node作为节点的双向链表，保存获取状态失败的线程。
-阻塞算法：AQS采用CLH(Craig, Landin, and Hagersten)自旋算法使获取状态失败的线程处于阻塞状态。
-ConditionObject：为子类提供一个java.util.concurrent.locks.Condition实现类
-
-AQS 采用CLH自旋锁方式让线程阻塞
-
-Node: AQS阻塞队列节点对象
+2. Node梳理
 waitStatus 状态   CANCELLED     取消
                   SIGNAL        阻塞
                   CONDITION     Condition队列中
@@ -21,10 +21,9 @@ waitStatus 状态   CANCELLED     取消
 prev       前节点
 next       下一个节点
 thread     线程对象    节点构造时初始化，节点释放时置为null
-nextWaiter 
+nextWaiter Condition队列节点
 
-
-排他模式（exclusive mode）
+3. 排他模式（exclusive mode），又称独占模式
 子类实现函数：
 boolean tryAcquire(int arg)     true if successful. Upon success, this object has been acquired    
 boolean tryRelease (int arg)    true if this object is now in a fully released state, so that any waiting threads may attempt to acquire; and false otherwise.
@@ -40,7 +39,7 @@ tryAcquireNanos
 release:
 
 acquire：
-1. 调用 tryAcquire，如果获取成功结束acquire。如果失败继续以下操作。
+1. 调用tryAcquire，如果获取成功结束acquire。如果失败继续以下操作。
 2. 添加一个EXCLUSIVE模式的Node到AQS队列尾。
 3. 
 
