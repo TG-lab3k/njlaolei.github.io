@@ -22,8 +22,10 @@ mWaitingRequests  --HashMap 存放当前正在请求的key，相同的key使用L
 
 
 请求优先级：
+使用PriorityBlockingQueue队列，PriorityBlockingQueue根据Request的Comparable排序
 
 RetryPolicy
+
 DiskBasedCache 分析
 缓存：
 只有GET方式，且设置为可缓存的数据（默认为true）
@@ -76,3 +78,12 @@ ResponseDelivery
 6. 判断Cache是否需要刷新，如果需要刷新，将Cache返回给User后再将Request添加到NetworkQueue
 7. 如果Cache不需要刷新，直接将Cache返回给User
 
+
+
+是否过期（TTL时间小于当前时间，过期）：
+1. 如果HTTP头有Cache-Control并为max-age(单位:秒)，取max-age时间
+2. 如果HTTP头没有Cache-Control，使用Expires时间
+
+是否需要刷新：
+1. SoftTTL时间小于当前时间
+2. Volley中默认是TTL时间与SoftTTL时间为同一个值
