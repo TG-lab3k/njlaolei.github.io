@@ -188,4 +188,7 @@ Activity:
 	  at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726)
 	  at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
 
-
+ViewGrou dispatchTouchEvent:
+循环处理children
+查找当前可访问焦点的子View
+判断焦点子View是否可接收Pointer事件
