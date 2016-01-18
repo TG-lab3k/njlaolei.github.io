@@ -3,48 +3,52 @@ layout: post
 title: "Volley"
 categories: Android
 ---
-RequestQueue
-HttpStack
-Network
-Cache
-Request
+1. Volley主要功能
+1) 提供可缓存的多线程处理的网络请求框架，其本身不参与具体的网络请求工作。
+2）根据Volley框架可自行替换具体的网络请求模块(HttpStack或Network)及缓存模块(Cache)
+
+2. 几个基础概念
+Request          请求类
+RequestQueue     请求队列
 Response
-RequestFuture
-ResponseDelivery
-NetworkDispatcher  Thread
-CacheDispatcher    Thread
+Cache            缓存
+Network          执行HttpStack
+HttpStack        具体的网络请求模块
+ResponseDelivery Response的分发类
+NetworkDispatcher  Thread扩展类，具体执行网络请求线程，在RequestQueue中以数组的形式组成线程池
+CacheDispatcher    Thread 获取缓存的执行类
+
+3. 4个容器，队列(在RequestQueue中)
+CurrentRequests  --HashSet
+CacheQueue       --PriorityBlockingQueue   需要获取缓存的请求队列
+NetworkQueue     --PriorityBlockingQueue   需要请求服务端的请求队列
+WaitingRequests  --HashMap 如果当前的Request所需要的资源，已经有其他 当前正在请求的key，相同的key使用LinkedList保存
 
 
-mCurrentRequests  --HashSet  全局队列
-mCacheQueue       --PriorityBlockingQueue
-mNetworkQueue     --PriorityBlockingQueue   网络请求队列
-mWaitingRequests  --HashMap 存放当前正在请求的key，相同的key使用LinkedList保存
-
-
-请求优先级：
+4. 请求优先级：
 使用PriorityBlockingQueue队列，PriorityBlockingQueue根据Request的Comparable排序
 
-RetryPolicy
+5. RetryPolicy
 
-DiskBasedCache 分析
+6. DiskBasedCache 分析
 缓存：
 只有GET方式，且设置为可缓存的数据（默认为true）
 
 
-Request添加：
+7. Request添加：
 1. 添加到mCurrentRequests
 2. 如果不应该缓存的Request，直接加入mNetworkQueue
 3. 如果可以缓存的Request则判断当前是否有相同的Key正在请求（在mWaitingRequests是否有相同key）
 4. 如果有相同的key正在请求，加入 mWaitingRequests。
 5. 如果没有相同的key在请求，加入 mCacheQueue 并加入一个null值到 mWaitingRequests。
 
-Request取消：
+8. Request取消：
 1. 可单个Request取消，也可根据Tag取消，也可以根据RequestFilter取消
 2. 以上三种取消方式最终都是找到相应的Request对象并调cancel方法
 
 
 
-NetworkDispatcher--Thread
+9. NetworkDispatcher--Thread
 属性：
 NetworkQueue
 Network
@@ -63,7 +67,7 @@ ResponseDelivery
 
 
 
-CacheDispatcher--Thread
+10. CacheDispatcher--Thread
 属性
 CacheQueue
 NetworkQueue
@@ -79,11 +83,16 @@ ResponseDelivery
 7. 如果Cache不需要刷新，直接将Cache返回给User
 
 
-
-是否过期（TTL时间小于当前时间，过期）：
+11. 是否过期（TTL时间小于当前时间，过期）：
 1. 如果HTTP头有Cache-Control并为max-age(单位:秒)，取max-age时间
 2. 如果HTTP头没有Cache-Control，使用Expires时间
 
-是否需要刷新：
+12. 是否需要刷新：
 1. SoftTTL时间小于当前时间
 2. Volley中默认是TTL时间与SoftTTL时间为同一个值
+
+
+13. 几个工具类：
+com.android.volley下面的：
+
+com.android.volley.toolbox下面的：

@@ -68,6 +68,8 @@ DraweeController
    1）获取DataSource
    2）构建一个DataSubscriber并又DataSource订阅（subscribe）
 
+DataSource来源
+1. 在DataSource
 
 com.facebook.datasource.DataSource
 com.facebook.datasource.DataSubscriber
