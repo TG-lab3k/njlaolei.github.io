@@ -93,6 +93,5 @@ ResponseDelivery
 
 
 13. 几个工具类：
-com.android.volley下面的：
+HttpHeaderParser 解析Http头的工具类
 
-com.android.volley.toolbox下面的：
