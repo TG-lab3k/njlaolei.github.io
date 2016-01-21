@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Android Studio FindBugs Plugin"
+categories: Tools
+---
+Android Studio FindBugs Plugin
+
+FindBugs在Android Studio中的使用
+1. Bug分类
+1) Dodgy code
+2) Malicious code vulnerability
+3) Bad practice
+4) Correctness
+5) Internationalization
+6) Security
+7) Performance
+8) Multithreaded correctness
+9) Experimental
