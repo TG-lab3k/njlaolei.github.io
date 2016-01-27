@@ -8,7 +8,7 @@ Android Studio FindBugs Plugin
 FindBugs在Android Studio中的使用
 1. Bug分类
 1) Dodgy code
-2) Malicious code vulnerability
+2) Malicious code vulnerability    恶意代码漏洞
 3) Bad practice
 4) Correctness
 5) Internationalization
