@@ -1,0 +1,8 @@
+
+---
+layout: post
+title: "Error"
+categories: Android
+---
+
+W/SQLiteConnectionPool: A SQLiteConnection object for database '/storage/sdcard0/202Backup/GarbageClean/FileSnapshot/OfficialSpecailList.db' was leaked!  Please fix your application to end transactions in progress properly and to close the database when it is no longer needed.
