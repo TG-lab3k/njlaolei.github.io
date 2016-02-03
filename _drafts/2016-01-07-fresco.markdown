@@ -1,0 +1,91 @@
+使用示例:
+1)
+final SimpleDraweeView thumb = (SimpleDraweeView) itemView.findViewById(R.id.imgv_bucket_thumb);
+final ViewGroup.LayoutParams layoutParams = thumb.getLayoutParams();
+final int itemWidth = layoutParams.width;
+final int itemHeight = layoutParams.height;
+Uri uri = PhotoProvider.getBucketThumbUri(bucket.id);
+ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+        .setResizeOptions(new ResizeOptions(itemWidth, itemHeight))
+        .setProgressiveRenderingEnabled(true)
+        .setLocalThumbnailPreviewsEnabled(true)
+        .setPostprocessor(new PngResizePostprocessor(itemWidth, itemHeight))
+        .setAutoRotateEnabled(true)
+        .build();
+
+DraweeController controller = Fresco.newDraweeControllerBuilder()
+        .setOldController(thumb.getController())
+        .setImageRequest(request)
+        .setAutoPlayAnimations(false)
+        .build();
+thumb.getHierarchy().setActualImageFocusPoint(new PointF(0.5f, 0.5f));
+thumb.setController(controller);
+
+2)
+                SimpleDraweeView thumbView = (SimpleDraweeView)itemView.findViewById(R.id.photo_thumb);
+                Postprocessor postProcessor = null;
+                int index = path.lastIndexOf('.');
+                int length = path.length();
+                if(0 < index && index < (length - 1)){
+                    String suffix = path.substring(index + 1, path.length());
+                    if("PNG".equals(suffix.toUpperCase())){
+                        postProcessor = new PngResizePostprocessor(itemWidth, itemHeight);
+                    }
+                }
+
+                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+                        .setResizeOptions(new ResizeOptions(itemWidth, itemHeight))
+                        .setProgressiveRenderingEnabled(true)
+                        .setLocalThumbnailPreviewsEnabled(true)
+                        .setPostprocessor(postProcessor)
+                        .setAutoRotateEnabled(true)
+                        .build();
+
+                DraweeController controller = Fresco.newDraweeControllerBuilder()
+                        .setOldController(thumbView.getController())
+                        .setImageRequest(request)
+                        .setAutoPlayAnimations(false)
+                        .build();
+
+                thumbView.getHierarchy().setActualImageFocusPoint(new PointF(0.5f, 0.5f));
+                thumbView.setController(controller);
+
+
+
+
+Drawees: 负责图片的呈现
+DraweeView
+DraweeHolder
+DraweeHierarchy
+DraweeController
+DraweeControllerBuilder
+Listeners
+
+
+DraweeController
+1. 一个新的 DraweeController 被设置以后，attach
+2. DraweeController.onAttach, onAttach中调用submitRequest
+   1）获取DataSource
+   2）构建一个DataSubscriber并又DataSource订阅（subscribe）
+
+DataSource来源
+1. 在DataSource
+
+com.facebook.datasource.DataSource
+com.facebook.datasource.DataSubscriber
+来源：
+ImagePipeline.fetchImageFromBitmapCache
+ImagePipeline.fetchDecodedImage
+
+Producer-> produceResults将ImageQuest封装成一个Runable提交到(Executor.execut)相应的Executor中
+
+ExecutorSupplier
+com.facebook.imagepipeline.core.DefaultExecutorSupplier
+4个固定大小的（Executors.newFixedThreadPool）线程池
+
+
+
+
+
+
+Image Pipeline: 负责图片的获取和管理
