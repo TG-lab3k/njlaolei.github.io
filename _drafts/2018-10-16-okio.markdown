@@ -1,0 +1,10 @@
+---
+layout: post
+title: "OKIO"
+categories: OKIO
+---
+#### 几个概念
+1. Sink, Source
+2. Segment, SegmentPool, Buffer, ByteString
+3. Timeout
+4. Pipe
