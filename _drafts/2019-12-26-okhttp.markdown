@@ -1,0 +1,78 @@
+---
+layout: post
+title: "okhttp"
+categories: okhttp
+---
+Docs: https://square.github.io/okhttp/
+
+Dispatcher
+对外公共接口
+//Set the maximum number of requests to execute concurrently
+setMaxRequests()
+//
+setMaxRequestsPerHost()
+//
+setIdleCallback
+//
+cancelAll
+
+//数据结构
+readyAsyncCalls //异步未执行的队列
+runningAsyncCalls//异步正在执行的队列
+runningSyncCalls//同步正在执行的队列
+
+//拦截器链
+RealInterceptorChain
+链式递归
+
+
+//
+RetryAndFollowUpInterceptor
+followUp：
+//授权
+407: Proxy Authentication Required
+与401响应类似，只不过客户端必须在代理服务器上进行身份验证。代理服务器必须返回一个 Proxy-Authenticate 用以进行身份询问。客户端可以返回一个 Proxy-Authorization 信息头用以验证
+401：Unauthorized
+
+// client 请求超时
+// if (!client.retryOnConnectionFailure()) return null;
+408 Request Timeout
+请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
+
+//重定向   if (!client.followRedirects()) return null;
+300:Multiple Choices
+被请求的资源有一系列可供选择的回馈信息，每个都有自己特定的地址和浏览器驱动的商议信息。用户或浏览器能够自行选择一个首选的地址进行重定向
+301: Moved Permanently
+被请求的资源已永久移动到新位置
+302 Move Temporarily
+请求的资源临时从不同的 URI响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求
+303 See Other
+对应当前请求的响应可以在另一个 URL 上被找到，而且客户端应当采用 GET 的方式访问那个资源
+307 Temporary Redirect
+请求的资源临时从不同的URI 响应请求。
+308 Permanently Redirect
+
+//
+503 Service Unavailable
+由于临时的服务器维护或者过载，服务器当前无法处理请求
+
+
+底层链接分析：
+//Http协议转码
+HttpCodec:
+将request对象中的数据按照http1.0协议格式写入tcp-Connection
+从tcp-Connection对象中读取数据并按照http1.0协议格式组装一个Reponse对象
+重要成员属性：
+final BufferedSource source;
+final BufferedSink sink;
+
+//链接 (https://square.github.io/okhttp/4.x/okhttp/okhttp3/-connection/)
+RealConnection implements Connection:
+创建(create)
+释放(release)
+复用(Reuse)
+取消(cancel)
+
+Address
+StreamAllocation
+ConnectionPool
